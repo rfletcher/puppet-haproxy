@@ -183,7 +183,7 @@ define haproxy::instance (
   } else {
     if $instance_name == 'haproxy' {
       $_config_dir = $haproxy::params::config_dir
-      $_config_file = $haproxy::params::config_file
+      $_config_file = $haproxy::config_file
     } else {
       $_config_dir = inline_template($haproxy::params::config_dir_tmpl)
       $_config_file = inline_template($haproxy::params::config_file_tmpl)
