@@ -66,7 +66,15 @@ define haproxy::backend (
   }
 
   if has_key($options, 'dynamic') {
-    $real_options = merge(delete($options, 'dynamic'), { '# servers:' => $section_name })
+    if is_hash($options['dynamic']) {
+      $dynamic_options = $options['dynamic']
+    } else {
+      $dynamic_options = {}
+    }
+
+    $real_options = merge(delete($options, 'dynamic'), {
+      '# servers:' => to_json(merge($dynamic_options, { 'cluster' => $section_name }))
+    } )
   }
 
   include haproxy::params
