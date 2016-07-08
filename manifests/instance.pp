@@ -221,7 +221,7 @@ define haproxy::instance (
     anchor { "${title}::haproxy::begin": }
     -> Haproxy::Install[$title]
     -> Haproxy::Config[$title]
-    ~> Haproxy::Service[$title]
+    -> Haproxy::Service[$title]
     -> anchor { "${title}::haproxy::end": }
   }
 }
