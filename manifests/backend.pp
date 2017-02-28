@@ -73,7 +73,7 @@ define haproxy::backend (
     }
 
     $real_options = merge(delete($options, 'dynamic'), {
-      '# servers:' => to_json(merge($dynamic_options, { 'cluster' => $section_name }))
+      '# servers:' => to_json(merge({'cluster' => $section_name }, $dynamic_options))
     } )
   }
 

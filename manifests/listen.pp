@@ -110,6 +110,18 @@ define haproxy::listen (
     fail("An haproxy::backend resource was discovered with the same name (${section_name}) which is not supported")
   }
 
+  if has_key($options, 'dynamic') {
+    if is_hash($options['dynamic']) {
+      $dynamic_options = $options['dynamic']
+    } else {
+      $dynamic_options = {}
+    }
+
+    $real_options = merge(delete($options, 'dynamic'), {
+      '# servers:' => to_json(merge({'cluster' => $section_name }, $dynamic_options))
+    } )
+  }
+
   include haproxy::params
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
